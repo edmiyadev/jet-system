@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Plane, Star, Shield, Clock, Users, MapPin, ArrowRight } from "lucide-react"
+import { Plane, Star, Shield, Clock, Users, MapPin, ArrowRight, InstagramIcon, TwitterIcon, FacebookIcon } from "lucide-react"
 import FlightSearch from "@/components/flight-search"
 import FeaturedDestinations from "@/components/featured-destinations"
 import { Button } from "@/components/ui/button"
@@ -10,11 +10,9 @@ export default function Home() {
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-sky-600 p-2 rounded-full">
-              <Plane className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gray-800">JetSystem</span>
+          <Link href="/" className="flex items-center flex-col">
+            <img src="/img/jetsystem.png" alt="" className="h-12 w-12" />
+            <span className="text-xl font-bold mt-[-7px] text-[#024156]">JetSystem</span>
           </Link>
 
           <div className="flex items-center space-x-4">
@@ -262,7 +260,7 @@ export default function Home() {
               Únete a más de 1 millón de viajeros que han elegido JetSystem para sus mejores experiencias de vuelo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/registro" >
+              <Link href="/auth/register" >
                 <Button className="bg-white text-sky-600 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300  cursor-pointer">
                   Crear Cuenta Gratis
                 </Button>
@@ -289,13 +287,13 @@ export default function Home() {
               </p>
               <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">f</span>
+                  <span className="text-sm font-bold"><FacebookIcon/></span>
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">t</span>
+                  <span className="text-sm font-bold"><TwitterIcon/></span>
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">in</span>
+                  <span className="text-sm font-bold"><InstagramIcon/></span>
                 </div>
               </div>
             </div>

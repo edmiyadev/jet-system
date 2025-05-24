@@ -30,7 +30,7 @@ export default function FlightSearch() {
     // }
 
     // Redirect to search results page with query parameters
-    router.push(`/vuelos/buscar?origen=${origin}&destino=${destination}&fecha=${departureDate}&pasajeros=${passengers}`)
+    router.push(`/flights/search?origen=${origin}&destino=${destination}&fecha=${departureDate}&pasajeros=${passengers}`)
   }
 
   return (
