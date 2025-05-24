@@ -6,8 +6,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 // import { toast } from "@/components/ui/use-toast"
 import { Check, CreditCard, Loader2 } from "lucide-react"
@@ -40,21 +38,10 @@ export default function ReservationForm({ flight }: { flight: Flight }) {
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [useMiles, setUseMiles] = useState(false)
-  const [formData, setFormData] = useState({
-    nombre: "",
-    correo: "",
-    telefono: "",
-  })
-
   // Simulamos que el usuario es corporativo y tiene millas disponibles
   const isUserCorporate = true
   const availableMiles = 5000
   const milesDiscount = useMiles ? Math.min(50, availableMiles / 100) : 0 // $1 de descuento por cada 100 millas, máximo 50% del precio
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
 
   const handleSeatSelect = (seatId: string) => {
     setSelectedSeat(seatId)
@@ -63,38 +50,27 @@ export default function ReservationForm({ flight }: { flight: Flight }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // if (!selectedSeat) {
-    //   toast({
-    //     title: "Error",
-    //     description: "Por favor selecciona un asiento para continuar.",
-    //     variant: "destructive",
-    //   })
-    //   return
-    // }
+    if (!selectedSeat) {
+      alert("Por favor selecciona un asiento para continuar.")
+      return
+    }
 
+    // Mostrar estado de carga
     setIsSubmitting(true)
 
-    try {
-      // Aquí iría la lógica para enviar la reserva al servidor
-      // Por ahora simulamos un proceso de reserva exitoso
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      //   toast({
-      //     title: "Reserva exitosa",
-      //     description: "Tu reserva ha sido confirmada. Hemos enviado los detalles a tu correo electrónico.",
-      //   })
-
-      // Redirigir al usuario a la página de confirmación
-      router.push(`/reservas/confirmacion?id=${Math.random().toString(36).substring(2, 10)}`)
-    } catch (error) {
-      //   toast({
-      //     title: "Error en la reserva",
-      //     description: "Ha ocurrido un error al procesar tu reserva. Inténtalo de nuevo.",
-      //     variant: "destructive",
-      //   })
-    } finally {
-      setIsSubmitting(false)
+    // Redirigir a la página de pagos con los datos de la reserva
+    const reservationData = {
+      vuelo: flight.id,
+      asiento: selectedSeat,
+      usarMillas: useMiles,
+      total: totalPrice.toFixed(2),
     }
+
+    // En una aplicación real, guardaríamos estos datos en el estado global o localStorage
+    localStorage.setItem("reservationData", JSON.stringify(reservationData))
+
+    // Redirigir a la página de pagos
+    router.push("/payments")
   }
 
   // Calcular el precio total (precio base + precio del asiento seleccionado)
@@ -122,11 +98,12 @@ export default function ReservationForm({ flight }: { flight: Flight }) {
                     onClick={() => handleSeatSelect(seat.id)}
                     className={`
                       p-3 rounded-md text-center relative
-                      ${!seat.available
-                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                        : selectedSeat === seat.id
-                          ? "bg-sky-600 text-white"
-                          : "bg-white border border-gray-300 hover:border-sky-600"
+                      ${
+                        !seat.available
+                          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          : selectedSeat === seat.id
+                            ? "bg-sky-600 text-white"
+                            : "bg-white border border-gray-300 hover:border-sky-600"
                       }
                     `}
                   >
@@ -170,7 +147,25 @@ export default function ReservationForm({ flight }: { flight: Flight }) {
                 </div>
               )}
 
-
+              <div className="pt-4">
+                <Button
+                  type="submit"
+                  className="w-full bg-sky-600 hover:bg-sky-700"
+                  disabled={isSubmitting || !selectedSeat}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Procesando...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Completar Reserva
+                    </>
+                  )}
+                </Button>
+              </div>
             </form>
           </CardContent>
         </Card>
@@ -217,27 +212,7 @@ export default function ReservationForm({ flight }: { flight: Flight }) {
               pueden ser canceladas hasta una semana antes con un reembolso del 80%.
             </p>
           </CardFooter>
-
         </Card>
-        <div className="pt-4">
-          <Button
-            type="submit"
-            className="w-full bg-sky-600 hover:bg-sky-700 cursor-pointer"
-            disabled={isSubmitting || !selectedSeat}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Procesando...
-              </>
-            ) : (
-              <>
-                <CreditCard className="mr-2 h-4 w-4" />
-                Completar Reserva
-              </>
-            )}
-          </Button>
-        </div>
       </div>
     </div>
   )
