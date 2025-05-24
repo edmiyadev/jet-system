@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ReservationForm from "@/components/reservation-form"
 
+interface Props {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
 // Esta función simula la obtención de detalles de un vuelo
 async function getFlightDetails(flightId: string) {
   // Simulamos una llamada a la API con un retraso
@@ -114,11 +118,10 @@ async function getFlightDetails(flightId: string) {
 }
 
 export default async function ReservationPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const flightId = typeof searchParams.vuelo === "string" ? searchParams.vuelo : undefined
+  searchParams
+}: Props) {
+  const params = await searchParams
+  const flightId = typeof params.vuelo === "string" ? params.vuelo : undefined
 
   if (!flightId) {
     notFound()

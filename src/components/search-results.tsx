@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -23,10 +22,7 @@ interface Flight {
 
 export function SearchResults({ flights, pasajeros = 1 }: { flights: Flight[]; pasajeros?: number }) {
   const router = useRouter()
-  const [selectedFlight, setSelectedFlight] = useState<string | null>(null)
-
   const handleSelectFlight = (flightId: string) => {
-    setSelectedFlight(flightId)
     // En una aplicación real, aquí guardaríamos el vuelo seleccionado en el estado global
     // o en localStorage antes de redirigir
     router.push(`/flights/reserve?vuelo=${flightId}&pasajeros=${pasajeros}`)

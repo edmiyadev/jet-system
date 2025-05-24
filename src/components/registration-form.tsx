@@ -106,6 +106,7 @@ export default function RegistrationForm() {
       // Redirigir al usuario a la página de inicio de sesión
       router.push("/login")
     } catch (error) {
+      console.log(error);
     //   toast({
     //     title: "Error en el registro",
     //     description: "Ha ocurrido un error al crear tu cuenta. Inténtalo de nuevo.",

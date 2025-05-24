@@ -108,7 +108,7 @@ export default function PaymentForm() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // Simular éxito del pago
-      const reservationId = Math.random().toString(36).substring(2, 10).toUpperCase()
+      // const reservationId = Math.random().toString(36).substring(2, 10).toUpperCase()
 
       // Limpiar datos de localStorage
       localStorage.removeItem("reservationData")
@@ -118,6 +118,7 @@ export default function PaymentForm() {
       // Redirigir al inicio
       router.push("/payments/confirmation")
     } catch (error) {
+      console.log(error);
       alert("Error en el pago. Inténtalo de nuevo.")
     } finally {
       setIsProcessing(false)

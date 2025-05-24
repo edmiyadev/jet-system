@@ -2,12 +2,13 @@ import Link from "next/link"
 import { CheckCircle, Download, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export default function ConfirmationPage({
+export default async function ConfirmationPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const reservationId = typeof searchParams.id === "string" ? searchParams.id : "UNKNOWN"
+  const params = await searchParams
+  const reservationId = typeof params.id === "string" ? params.id : "UNKNOWN"
 
   return (
     <div className="container mx-auto px-4 py-16">

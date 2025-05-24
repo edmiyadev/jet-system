@@ -1,8 +1,23 @@
 import Link from "next/link"
-import { Plane, Star, Shield, Clock, Users, MapPin, ArrowRight, InstagramIcon, TwitterIcon, FacebookIcon } from "lucide-react"
+import { Plane, Star, Shield, Clock, Users, MapPin, ArrowRight } from "lucide-react"
 import FlightSearch from "@/components/flight-search"
 import FeaturedDestinations from "@/components/featured-destinations"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
+
+
+// SVGs from Simple Icons (https://simpleicons.org/)
+const FacebookSVG = () => (
+  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg>
+);
+
+const TwitterSVG = () => (
+  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-brand-twitter"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z" /></svg>
+);
+
+const InstagramSVG = () => (
+  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-brand-instagram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
+);
 
 export default function Home() {
   return (
@@ -11,7 +26,7 @@ export default function Home() {
       <header className="absolute top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center flex-col">
-            <img src="/img/jetsystem.png" alt="" className="h-12 w-12" />
+            <Image src="/img/jetsystem.png" alt="logo empresa" width={48} height={48} />
             <span className="text-xl font-bold mt-[-7px] text-[#024156]">JetSystem</span>
           </Link>
 
@@ -187,8 +202,8 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "Increíble experiencia de vuelo. El servicio fue excepcional y llegamos puntualmente. Definitivamente
-                  volaré con JetSystem de nuevo."
+                  &quot;Increíble experiencia de vuelo. El servicio fue excepcional y llegamos puntualmente. Definitivamente
+                  volaré con JetSystem de nuevo.&quot;
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-sky-200 rounded-full flex items-center justify-center mr-4">
@@ -208,8 +223,8 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "Los precios son muy competitivos y la calidad del servicio es excelente. Mi familia y yo siempre
-                  elegimos JetSystem para nuestras vacaciones."
+                  &quot;Los precios son muy competitivos y la calidad del servicio es excelente. Mi familia y yo siempre
+                  elegimos JetSystem para nuestras vacaciones.&quot;
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-sky-200 rounded-full flex items-center justify-center mr-4">
@@ -229,8 +244,8 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "El programa de millas es fantástico. He podido viajar gratis varias veces gracias a los puntos
-                  acumulados. ¡Muy recomendado!"
+                  &quot;El programa de millas es fantástico. He podido viajar gratis varias veces gracias a los puntos
+                  acumulados. ¡Muy recomendado!&quot;
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-sky-200 rounded-full flex items-center justify-center mr-4">
@@ -287,13 +302,13 @@ export default function Home() {
               </p>
               <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold"><FacebookIcon/></span>
+                  <span className="text-sm font-bold"><FacebookSVG/></span>
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold"><TwitterIcon/></span>
+                  <span className="text-sm font-bold"><TwitterSVG/></span>
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold"><InstagramIcon/></span>
+                  <span className="text-sm font-bold"><InstagramSVG/></span>
                 </div>
               </div>
             </div>

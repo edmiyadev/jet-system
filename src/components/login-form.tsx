@@ -71,6 +71,8 @@ export default function LoginForm() {
       // Redirigir al usuario al dashboard
       router.push("/dashboard")
     } catch (error) {
+      console.log(error);
+      
       setError("Correo electrónico o contraseña incorrectos. Por favor intente de nuevo.")
     } finally {
       setIsSubmitting(false)

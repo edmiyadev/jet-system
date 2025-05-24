@@ -1,13 +1,14 @@
 import Link from "next/link"
-import { ArrowLeft, Plane } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import LoginForm from "@/components/login-form"
+import Image from "next/image"
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row">
       {/* Mitad izquierda: Imagen de fondo */}
       <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-sky-50 to-sky-100 overflow-hidden md:justify-center md:items-center">
-        <img 
+        <Image 
           src="/img/login.png" 
           alt="Imagen de fondo" 
           className="object-cover h-10/12"

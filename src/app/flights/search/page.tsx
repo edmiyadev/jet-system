@@ -65,12 +65,13 @@ async function searchFlights(origin?: string, destination?: string, date?: strin
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const origen = typeof searchParams.origen === "string" ? searchParams.origen : undefined
-  const destino = typeof searchParams.destino === "string" ? searchParams.destino : undefined
-  const fecha = typeof searchParams.fecha === "string" ? searchParams.fecha : undefined
-  const pasajeros = typeof searchParams.pasajeros === "string" ? searchParams.pasajeros : "1"
+  const params = await searchParams
+  const origen = typeof params.origen === "string" ? params.origen : undefined
+  const destino = typeof params.destino === "string" ? params.destino : undefined
+  const fecha = typeof params.fecha === "string" ? params.fecha : undefined
+  const pasajeros = typeof params.pasajeros === "string" ? params.pasajeros : "1"
 
   const flights = await searchFlights(origen, destino, fecha)
   const noResults = flights.length === 0
