@@ -18,10 +18,10 @@ export default function Home() {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <Link href="/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors">
+            <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors">
               Iniciar Sesión
             </Link>
-            <Link href="/registro">
+            <Link href="/auth/register">
               <Button className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                 Registrarse
               </Button>
