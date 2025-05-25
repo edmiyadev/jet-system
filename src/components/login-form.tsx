@@ -11,9 +11,11 @@ import { Label } from "@/components/ui/label"
 // import { toast } from "@/components/ui/use-toast"
 import { Loader2, LogIn, Mail, Lock, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function LoginForm() {
   const router = useRouter()
+  const { login } = useAuth()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
@@ -54,22 +56,14 @@ export default function LoginForm() {
     setIsSubmitting(true)
 
     try {
-      // Aquí iría la lógica para autenticar al usuario
-      // Por ahora simulamos un inicio de sesión exitoso o fallido
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // Simulamos un error de autenticación para el caso B (credenciales incorrectas)
-      if (formData.correo !== "usuario@ejemplo.com" && formData.password !== "password123") {
-        throw new Error("Credenciales incorrectas")
+      const user = await login(formData.correo, formData.password)
+      
+      // Redirigir según el rol del usuario
+      if (user.role === "admin") {
+        router.push("/admin")
+      } else {
+        router.push("/dashboard")
       }
-
-    //   toast({
-    //     title: "Inicio de sesión exitoso",
-    //     description: "Has iniciado sesión correctamente.",
-    //   })
-
-      // Redirigir al usuario al dashboard
-      router.push("/dashboard")
     } catch (error) {
       console.log(error);
       

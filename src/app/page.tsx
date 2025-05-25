@@ -1,10 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import { Plane, Star, Shield, Clock, Users, MapPin, ArrowRight } from "lucide-react"
 import FlightSearch from "@/components/flight-search"
 import FeaturedDestinations from "@/components/featured-destinations"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
-
+import Navbar from "@/components/navbar"
+import { useAuth } from "@/contexts/auth-context"
 
 // SVGs from Simple Icons (https://simpleicons.org/)
 const FacebookSVG = () => (
@@ -20,26 +22,12 @@ const InstagramSVG = () => (
 );
 
 export default function Home() {
+  const { isAuthenticated, user } = useAuth()
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-white/20">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center flex-col">
-            <Image src="/img/jetsystem.png" alt="logo empresa" width={48} height={48} />
-            <span className="text-xl font-bold mt-[-7px] text-[#024156]">JetSystem</span>
-          </Link>
-
-          <div className="flex items-center space-x-4">
-            <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors cursor-pinter">
-              Iniciar Sesión
-            </Link>
-            <Link href="/auth/register" className="bg-sky-600 hover:bg-sky-700 text-white font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                Registrarse
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Navbar */}
+      <Navbar />
 
       <main className="flex-grow">
         {/* Hero Section */}
@@ -64,15 +52,41 @@ export default function Home() {
           <div className="relative z-10 container mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto">
               <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                Vuela hacia tus
+                {isAuthenticated 
+                  ? `Hola, ${user?.name.split(' ')[0]}`
+                  : "Vuela hacia tus"
+                }
                 <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                  Sueños
+                  {isAuthenticated ? "¿A dónde volarás hoy?" : "Sueños"}
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                Descubre el mundo con JetSystem. Vuelos cómodos, precios increíbles y destinos extraordinarios te
-                esperan.
+                {isAuthenticated
+                  ? `Bienvenido de nuevo a JetSystem. Tu próxima aventura comienza aquí.`
+                  : "Descubre el mundo con JetSystem. Vuelos cómodos, precios increíbles y destinos extraordinarios te esperan."
+                }
               </p>
+              
+              {/* Panel de acceso rápido para usuarios autenticados */}
+              {isAuthenticated && (
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
+                  <Link 
+                    href={user?.role === "admin" ? "/admin" : "/dashboard"}
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-xl transition-all flex items-center gap-2"
+                  >
+                    <span>Ir a mi Panel</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  
+                  <Link 
+                    href="/flights/search" 
+                    className="bg-sky-600/90 hover:bg-sky-700/90 text-white px-6 py-3 rounded-xl transition-all flex items-center gap-2"
+                  >
+                    <Plane className="h-4 w-4" />
+                    <span>Buscar Vuelos</span>
+                  </Link>
+                </div>
+              )}
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center gap-8 mb-12">
@@ -96,8 +110,37 @@ export default function Home() {
 
               {/* Search Card */}
               <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 max-w-5xl mx-auto">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">¿A dónde quieres volar hoy?</h2>
-                <FlightSearch />
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                  {isAuthenticated 
+                    ? user?.role === "admin" 
+                      ? "Administra tus vuelos"
+                      : "Busca tu próximo vuelo" 
+                    : "¿A dónde quieres volar hoy?"
+                  }
+                </h2>
+                
+                {isAuthenticated && user?.role === "admin" ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-6 border border-sky-100 rounded-xl bg-sky-50/50 flex flex-col items-center text-center">
+                      <Plane className="h-8 w-8 text-sky-600 mb-4" />
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2">Gestionar Vuelos</h3>
+                      <p className="text-gray-600 mb-4">Administra los vuelos disponibles, horarios y precios</p>
+                      <Link href="/admin" className="bg-sky-600 hover:bg-sky-700 text-white px-5 py-2 rounded-lg transition-all">
+                        Ir al Panel Admin
+                      </Link>
+                    </div>
+                    <div className="p-6 border border-yellow-100 rounded-xl bg-yellow-50/50 flex flex-col items-center text-center">
+                      <Users className="h-8 w-8 text-amber-600 mb-4" />
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2">Usuarios</h3>
+                      <p className="text-gray-600 mb-4">Revisa los usuarios registrados y sus reservas</p>
+                      <Link href="/admin" className="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-lg transition-all">
+                        Ver Usuarios
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <FlightSearch />
+                )}
               </div>
             </div>
           </div>

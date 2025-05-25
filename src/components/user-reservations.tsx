@@ -13,11 +13,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-// import { toast } from "@/components/ui/use-toast"
 import { AlertTriangle, Calendar, Plane } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 
-// Datos de ejemplo para las reservas del usuario
-const userReservations = [
+// Datos de ejemplo para las reservas del usuario según su rol
+const customerReservations = [
   {
     id: "RES123456",
     flightId: "FL001",
@@ -30,92 +30,103 @@ const userReservations = [
     arrivalTime: "11:45",
     seatNumber: "3B",
     status: "confirmed",
-    price: 229,
-    cancellable: true,
-    bookingDate: "2023-06-01", // Fecha de reserva (para calcular si ha pasado una semana)
+    passengerName: "Juan Pérez",
+    price: 320,
   },
   {
     id: "RES789012",
-    flightId: "FL045",
-    origin: "SDQ",
-    originName: "Santo Domingo",
-    destination: "JFK",
-    destinationName: "Nueva York",
-    departureDate: "2023-07-22",
-    departureTime: "10:15",
-    arrivalTime: "14:30",
-    seatNumber: "12A",
-    status: "confirmed",
-    price: 349,
-    cancellable: true,
-    bookingDate: "2023-07-20", // Reserva reciente (menos de una semana)
-  },
-  {
-    id: "RES345678",
-    flightId: "FL089",
+    flightId: "FL002",
     origin: "MIA",
     originName: "Miami",
     destination: "SDQ",
     destinationName: "Santo Domingo",
-    departureDate: "2023-06-22",
-    departureTime: "16:45",
-    arrivalTime: "20:00",
-    seatNumber: "8C",
-    status: "completed",
-    price: 219,
-    cancellable: false,
-    bookingDate: "2023-06-10",
+    departureDate: "2023-06-20",
+    departureTime: "14:15",
+    arrivalTime: "17:30",
+    seatNumber: "12C",
+    status: "confirmed",
+    passengerName: "Juan Pérez",
+    price: 340,
+  },
+]
+
+const corporateReservations = [
+  {
+    id: "RES123456",
+    flightId: "FL001",
+    origin: "MEX",
+    originName: "Ciudad de México",
+    destination: "BOG",
+    destinationName: "Bogotá",
+    departureDate: "2023-06-15",
+    departureTime: "08:30",
+    arrivalTime: "11:45",
+    seatNumber: "1A",
+    status: "confirmed",
+    passengerName: "María Rodríguez",
+    price: 520,
+    company: "Empresa ABC",
+  },
+  {
+    id: "RES789012",
+    flightId: "FL002",
+    origin: "BOG",
+    originName: "Bogotá",
+    destination: "MEX",
+    destinationName: "Ciudad de México",
+    departureDate: "2023-06-20",
+    departureTime: "14:15",
+    arrivalTime: "17:30",
+    seatNumber: "1B",
+    status: "confirmed",
+    passengerName: "María Rodríguez",
+    price: 540,
+    company: "Empresa ABC",
+  },
+  {
+    id: "RES345678",
+    flightId: "FL003",
+    origin: "MEX",
+    originName: "Ciudad de México",
+    destination: "MAD",
+    destinationName: "Madrid",
+    departureDate: "2023-07-10",
+    departureTime: "23:30",
+    arrivalTime: "16:45",
+    seatNumber: "2A",
+    status: "confirmed",
+    passengerName: "María Rodríguez",
+    price: 1200,
+    company: "Empresa ABC",
   },
 ]
 
 export default function UserReservations() {
-  const [reservations, setReservations] = useState(userReservations)
-  const [cancellingId, setCancellingId] = useState<string | null>(null)
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [cancellationError, setCancellationError] = useState<string | null>(null)
+  const [isCancelling, setIsCancelling] = useState(false)
+  const [cancellationId, setCancellationId] = useState<string | null>(null)
+  const { user } = useAuth()
 
-  const handleCancelReservation = async () => {
-    if (!cancellingId) return
+  // Seleccionar las reservas según el rol del usuario
+  const reservations = user?.role === "corporate" ? corporateReservations : customerReservations
 
-    setIsProcessing(true)
-    setCancellationError(null)
-
+  const handleCancelReservation = async (id: string) => {
+    setCancellationId(id)
+    setIsCancelling(true)
+    console.log(cancellationId);
+    
     try {
-      // Aquí iría la lógica para cancelar la reserva en el servidor
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Simular el proceso de cancelación
+      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      const reservation = reservations.find((r) => r.id === cancellingId)
-
-      // Verificar si ha pasado más de una semana desde la reserva
-      const bookingDate = new Date(reservation?.bookingDate || "")
-      const currentDate = new Date()
-      const oneWeek = 7 * 24 * 60 * 60 * 1000 // Una semana en milisegundos
-
-      // Caso B: No ha pasado una semana desde la reserva
-      if (currentDate.getTime() - bookingDate.getTime() < oneWeek) {
-        setCancellationError(
-          "No es posible cancelar la reserva. Debe esperar al menos una semana desde la fecha de reserva para poder cancelarla.",
-        )
-        return
-      }
-
-      // Actualizar el estado local
-      setReservations((prev) => prev.filter((reservation) => reservation.id !== cancellingId))
-
-    //   toast({
-    //     title: "Reserva cancelada",
-    //     description: `La reserva ${cancellingId} ha sido cancelada. El reembolso del 80% será procesado en los próximos días.`,
-    //   })
-
-      setCancellingId(null)
+      // Simular éxito
+      alert("Reservación cancelada exitosamente.")
     } catch (error) {
-    //   toast({
-    //     title: "Error",
-    //     description: "No se pudo cancelar la reserva. Inténtalo de nuevo.",
-    //     variant: "destructive",
-    //   })
+      console.log(error);
+      
+      alert("Error al cancelar la reservación. Inténtalo de nuevo.")
     } finally {
-      setIsProcessing(false)
+      setIsCancelling(false)
+      setCancellationId(null)
     }
   }
 
@@ -189,7 +200,7 @@ export default function UserReservations() {
                       Ver Detalles
                     </Button>
 
-                    {reservation.cancellable && (
+                    {reservation.status === "confirmed" && (
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
@@ -197,8 +208,7 @@ export default function UserReservations() {
                             size="sm"
                             className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
                             onClick={() => {
-                              setCancellingId(reservation.id)
-                              setCancellationError(null)
+                              setCancellationId(reservation.id)
                             }}
                           >
                             Cancelar
@@ -215,12 +225,6 @@ export default function UserReservations() {
                               valor pagado.
                             </DialogDescription>
                           </DialogHeader>
-
-                          {cancellationError && (
-                            <div className="bg-red-50 p-4 rounded-md text-red-800 text-sm mb-4">
-                              {cancellationError}
-                            </div>
-                          )}
 
                           <div className="bg-gray-50 p-4 rounded-md">
                             <div className="grid grid-cols-2 gap-2 text-sm">
@@ -252,11 +256,15 @@ export default function UserReservations() {
                           </div>
 
                           <DialogFooter>
-                            <Button variant="outline" onClick={() => setCancellingId(null)}>
+                            <Button variant="outline" onClick={() => setCancellationId(null)}>
                               Cancelar
                             </Button>
-                            <Button variant="destructive" onClick={handleCancelReservation} disabled={isProcessing}>
-                              {isProcessing ? "Procesando..." : "Confirmar Cancelación"}
+                            <Button
+                              variant="destructive"
+                              onClick={() => handleCancelReservation(reservation.id)}
+                              disabled={isCancelling}
+                            >
+                              {isCancelling ? "Procesando..." : "Confirmar Cancelación"}
                             </Button>
                           </DialogFooter>
                         </DialogContent>

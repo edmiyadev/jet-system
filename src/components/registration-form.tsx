@@ -104,7 +104,7 @@ export default function RegistrationForm() {
     //   })
 
       // Redirigir al usuario a la página de inicio de sesión
-      router.push("/login")
+      router.push("/auth/login")
     } catch (error) {
       console.log(error);
     //   toast({

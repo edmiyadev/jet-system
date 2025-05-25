@@ -136,6 +136,8 @@ export default function AdminFlights({ filter }: { filter?: string }) {
     //     description: "No se pudo eliminar el vuelo. Inténtalo de nuevo.",
     //     variant: "destructive",
     //   })
+    console.log("Error al eliminar el vuelo:", error);
+    
     } finally {
       setIsProcessing(false)
     }

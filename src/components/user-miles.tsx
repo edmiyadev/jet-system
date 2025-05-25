@@ -1,65 +1,67 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CreditCard, Gift, Plane, TrendingUp } from "lucide-react"
-
-// Datos de ejemplo para las millas del usuario
-const userMiles = {
-  total: 12500,
-  available: 10000,
-  used: 2500,
-  nextTier: 15000,
-  tier: "Silver",
-  history: [
-    {
-      id: 1,
-      date: "2023-05-15",
-      description: "Vuelo SDQ-MIA",
-      miles: 1500,
-      type: "earned",
-    },
-    {
-      id: 2,
-      date: "2023-04-22",
-      description: "Vuelo MIA-JFK",
-      miles: 2000,
-      type: "earned",
-    },
-    {
-      id: 3,
-      date: "2023-03-10",
-      description: "Vuelo JFK-SDQ",
-      miles: 2500,
-      type: "earned",
-    },
-    {
-      id: 4,
-      date: "2023-02-28",
-      description: "Descuento en reserva",
-      miles: -2500,
-      type: "used",
-    },
-    {
-      id: 5,
-      date: "2023-01-15",
-      description: "Vuelo SDQ-PTY",
-      miles: 1500,
-      type: "earned",
-    },
-    {
-      id: 6,
-      date: "2022-12-20",
-      description: "Bono por cliente frecuente",
-      miles: 5000,
-      type: "earned",
-    },
-  ],
-}
+import { CreditCard, Plane, TrendingUp } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function UserMiles() {
+  const { user } = useAuth()
+
+  // Datos de ejemplo para las millas del usuario
+  const userMiles = {
+    total: user?.miles || 10000,
+    available: user?.miles || 10000,
+    used: 0,
+    nextTier: 15000,
+    tier: "Silver",
+    history: [
+      {
+        id: 1,
+        date: "2023-05-15",
+        description: `Vuelo ${user?.role === "corporate" ? "MEX-BOG" : "SDQ-MIA"}`,
+        miles: 1500,
+        type: "earned",
+      },
+      {
+        id: 2,
+        date: "2023-04-22",
+        description: `Vuelo ${user?.role === "corporate" ? "BOG-MEX" : "MIA-JFK"}`,
+        miles: 2000,
+        type: "earned",
+      },
+      {
+        id: 3,
+        date: "2023-03-10",
+        description: `Vuelo ${user?.role === "corporate" ? "PTY-MEX" : "JFK-SDQ"}`,
+        miles: 2500,
+        type: "earned",
+      },
+      {
+        id: 4,
+        date: "2023-02-28",
+        description: "Descuento en reserva",
+        miles: -2500,
+        type: "used",
+      },
+      {
+        id: 5,
+        date: "2023-01-15",
+        description: `Vuelo ${user?.role === "corporate" ? "SDQ-PTY" : "PTY-MIA"}`,
+        miles: 1500,
+        type: "earned",
+      },
+      {
+        id: 6,
+        date: "2022-12-20",
+        description: "Bono por cliente frecuente",
+        miles: 5000,
+        type: "earned",
+      },
+    ],
+  }
+
   const progress = (userMiles.total / userMiles.nextTier) * 100
 
   return (
