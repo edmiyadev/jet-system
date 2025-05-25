@@ -109,7 +109,7 @@ export default function FlightSearch() {
         </div>
 
         <div className="flex items-end pb-2.5">
-          <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700">
+          <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700 cursor-pointer">
             <Search className="mr-2 h-4 w-4" />
             Buscar Vuelos
           </Button>

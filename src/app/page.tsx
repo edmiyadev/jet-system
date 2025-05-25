@@ -31,13 +31,11 @@ export default function Home() {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors">
+            <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors cursor-pinter">
               Iniciar Sesión
             </Link>
-            <Link href="/auth/register">
-              <Button className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+            <Link href="/auth/register" className="bg-sky-600 hover:bg-sky-700 text-white font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
                 Registrarse
-              </Button>
             </Link>
           </div>
         </div>
@@ -176,7 +174,7 @@ export default function Home() {
             <FeaturedDestinations />
 
             <div className="text-center mt-12">
-              <Link href="/destinos">
+              <Link href="#">
                 <Button className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                   Ver Todos los Destinos
                   <ArrowRight className="ml-2 h-5 w-5" />
