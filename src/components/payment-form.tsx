@@ -283,7 +283,7 @@ export default function PaymentForm() {
                   <div className="text-sm text-gray-700">
                     <p className="mb-2">Al proceder con el pago, aceptas:</p>
                     <ul className="list-disc pl-5 space-y-1">
-                      <li>Los términos y condiciones de AeroRegional</li>
+                      <li>Los términos y condiciones de JetSystem</li>
                       <li>La política de cancelación y reembolsos</li>
                       <li>Las tarifas y cargos aplicables</li>
                     </ul>

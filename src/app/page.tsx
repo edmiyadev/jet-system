@@ -354,7 +354,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold mb-6">Enlaces Rápidos</h3>
               <ul className="space-y-3">
                 <li>
@@ -383,7 +383,7 @@ export default function Home() {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             <div>
               <h3 className="text-lg font-semibold mb-6">Contacto</h3>

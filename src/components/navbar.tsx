@@ -65,11 +65,11 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-medium transition-colors cursor-pinter">
+              <Link href="/auth/login" className="text-sky-600 hover:text-sky-800 font-semibold transition-colors cursor-pinter">
                     Iniciar Sesión
               </Link>
-              <Link href="/auth/register" className=" cursor-pinter">
-                <Button className="bg-sky-600 hover:bg-sky-700">Registrarse</Button>
+              <Link href="/auth/register" className="cursor-pinter">
+                <Button className="bg-sky-600 hover:bg-sky-700 font-semibold">Registrarse</Button>
               </Link>
             </>
           )}

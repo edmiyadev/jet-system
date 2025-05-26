@@ -11,9 +11,9 @@ export default function LoginPage() {
         <Image 
           src="/img/login.png" 
           alt="Imagen de fondo" 
-          className="object-cover h-10/12 w-full"
-          width={500}
-          height={500}
+          className="object-cover"
+          width={800}
+          height={1200}
         />
       </div>
 
